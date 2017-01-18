@@ -13,7 +13,7 @@ Get-AzureRmSubscription -SubscriptionName $azureAccount | Select-AzureRmSubscrip
 # EDIT THIS!
 # Set the path to where you've cloned the NTestDSC contents.
 # Important: Make sure the path ends with the "\", as in "C:\Code\MyGitHub\NTestDSC\"
-$localAssets = "C:\Code\MyGitHub\NTestDSC - Copy\"
+# $localAssets = "C:\Code\MyGitHub\NTestDSC - Copy\"
 
 # Datacenter Region you want to use.  
 # Note that some regions don't yet support Azure Automation. You'll get an error if you pick one of those.
@@ -67,6 +67,7 @@ while ($uniqueName -eq $false) {
     $counter ++
 } 
 
+
 #
 # For this deployment I use the github-based template file, parameter file, and additional parameters in the command.
 # 
@@ -74,7 +75,6 @@ New-AzureRmResourceGroupDeployment -Name TestDeployment -ResourceGroupName $rgNa
     -TemplateParameterUri $parameterFileLoc `
     -TemplateUri $templateFileLoc `
     -domainNamePrefix $dnsPrefix `
-    -adminUsername "vAdmin" `
     -automationAccountName $autoAccountName `
     -registrationKey ($RegistrationInfo.PrimaryKey | ConvertTo-SecureString -AsPlainText -Force) `
     -registrationUrl $RegistrationInfo.Endpoint `

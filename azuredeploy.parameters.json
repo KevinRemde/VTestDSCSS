@@ -8,6 +8,9 @@
         "vmssName": {
             "value": "webdsc"
         },
+        "adminUsername": {
+            "value": "vAdmin"
+        },
         "registrationKey": {
             "value": "changeMe_AzureAutomationRegistrationKey"
         },
