@@ -10,6 +10,7 @@ $azureAccount = "KevRem Azure"
 Login-AzureRmAccount
 Get-AzureRmSubscription -SubscriptionName $azureAccount | Select-AzureRmSubscription 
 
+
 # EDIT THIS!
 # Set the path to where you've cloned the NTestDSC contents.
 # Important: Make sure the path ends with the "\", as in "C:\Code\MyGitHub\NTestDSC\"
@@ -71,6 +72,29 @@ while ($uniqueName -eq $false) {
 #
 # For this deployment I use the github-based template file, parameter file, and additional parameters in the command.
 # 
+
+$key = ($RegistrationInfo.PrimaryKey | ConvertTo-SecureString -AsPlainText -Force)
+$endpoint = $RegistrationInfo.Endpoint
+
+$parameterObject = @{
+    "domainNamePrefix" = $dnsPrefix 
+    "vmssName" = "webdsc"
+    "adminUsername" = "vAdmin"
+    "adminPassword" = "Passw0rd!"
+    "instanceCount" = 3
+    "automationAccountName" = $autoAccountName 
+    "registrationKey" = $key 
+    "registrationUrl" = $endpoint
+    "jobid" = $NewGUID
+    "nodeConfigurationName" = $nodeConfigurationName
+    "moduleName" = $moduleName
+    "moduleURI" = $moduleURI
+    "configurationName" = $configurationName
+    "configurationURI" = $configurationURI
+}
+
+
+<# 
 New-AzureRmResourceGroupDeployment -Name TestDeployment -ResourceGroupName $rgName `
     -TemplateParameterUri $parameterFileLoc `
     -TemplateUri $templateFileLoc `
@@ -85,7 +109,9 @@ New-AzureRmResourceGroupDeployment -Name TestDeployment -ResourceGroupName $rgNa
     -configurationName $configurationName `
     -configurationURI $configurationURI `
     -Verbose 
-
+#>
+Measure-Command -expression {New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileLoc -TemplateParameterObject $parameterObject}
+ 
 # later if you want, you can easily remove the resource group and all objects it contains.
 #
 # Remove-AzureRmResourceGroup -Name $rgName -Force

@@ -51,7 +51,7 @@
             "defaultValue": "Passw0rd!"
         },
         "registrationKey": {
-            "type": "securestring",
+            "type": "secureObject",
             "metadata": {
                 "description": "Registration key to use to onboard to the Azure Automation DSC pull/reporting server"
             }
