@@ -73,7 +73,8 @@ while ($uniqueName -eq $false) {
 # For this deployment I use the github-based template file, parameter file, and additional parameters in the command.
 # 
 
-$key = ($RegistrationInfo.PrimaryKey | ConvertTo-SecureString -AsPlainText -Force)
+# $key = ($RegistrationInfo.PrimaryKey | ConvertTo-SecureString -AsPlainText -Force)
+
 $endpoint = $RegistrationInfo.Endpoint
 
 $parameterObject = @{
@@ -83,9 +84,9 @@ $parameterObject = @{
     "adminPassword" = "Passw0rd!"
     "instanceCount" = 3
     "automationAccountName" = $autoAccountName 
-    "registrationKey" = $key 
+    "registrationKey" = $RegistrationInfo.PrimaryKey 
     "registrationUrl" = $endpoint
-    "jobid" = $NewGUID
+    "jobid" = $NewGUID.ToString()
     "nodeConfigurationName" = $nodeConfigurationName
     "moduleName" = $moduleName
     "moduleURI" = $moduleURI
@@ -110,7 +111,7 @@ New-AzureRmResourceGroupDeployment -Name TestDeployment -ResourceGroupName $rgNa
     -configurationURI $configurationURI `
     -Verbose 
 #>
-Measure-Command -expression {New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileLoc -TemplateParameterObject $parameterObject}
+Measure-Command -expression {New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileLoc -TemplateParameterObject $parameterObject -verbose}
  
 # later if you want, you can easily remove the resource group and all objects it contains.
 #
